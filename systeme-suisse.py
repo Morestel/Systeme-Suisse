@@ -44,9 +44,6 @@ def match(joueur1, joueur2):
     
 def pair_valide(module):
     for i in range(0, len(module)-1):
-        j = 0
-        for j in range(0, len(module[i].adversaires)):
-            print(module[i].adversaires[j].nom)
         if module[i+1] in module[i].adversaires:
             return False # Ils se sont déjà affrontés on renvoie faux 
     # Aucun match n'a déjà été joué, c'est valide
