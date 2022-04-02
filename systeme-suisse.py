@@ -1,7 +1,8 @@
 import random
 from faker import Faker
 import config as config
-import copy
+import time
+import itertools
 
 fake = Faker()
 
@@ -50,8 +51,12 @@ def matchmaking(liste_joueurs):
         i = 0
         # On verifie que les joueurs ne se soient pas deja affrontes
         j = i + 1
-        while liste[j] in liste[i].adversaires:
-            j += 1
+        try:
+            while liste[j] in liste[i].adversaires:
+                j += 1
+        except:
+            print(len(liste))
+            print(j)
 
         # Ils ne se sont pas affrontes : ils vont le faire
         matchs.append((liste[i], liste[j]))
@@ -79,9 +84,14 @@ def main():
     liste_joueurs = []
     ladder = Ladder()
     remplir_liste_joueurs(liste_joueurs=liste_joueurs)
-    match(joueur1=liste_joueurs[0], joueur2=liste_joueurs[1])
-    matchs = matchmaking(liste_joueurs=liste_joueurs)
-    format_match(matchs=matchs, ladder=ladder)
+   
+    for i in range(0, config.NOMBRE_ROUND-7):
+        matchs = matchmaking(liste_joueurs=liste_joueurs)
+        format_match(matchs=matchs, ladder=ladder)
+        for i in matchs:
+            match(joueur1=i[0], joueur2=i[1])
+        
+        ladder.round += 1
     
         
 if __name__== "__main__":
