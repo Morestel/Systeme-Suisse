@@ -39,6 +39,18 @@ def match(joueur1, joueur2):
     else:
         joueur1.defaite += 1
         joueur2.victoire += 1
+    joueur1.adversaires.append(joueur2)
+    joueur2.adversaires.append(joueur1)
+    
+def pair_valide(module):
+    for i in range(0, len(module)-1):
+        j = 0
+        for j in range(0, len(module[i].adversaires)):
+            print(module[i].adversaires[j].nom)
+        if module[i+1] in module[i].adversaires:
+            return False # Ils se sont déjà affrontés on renvoie faux 
+    # Aucun match n'a déjà été joué, c'est valide
+    return True
 
 def penalty(joueur1, joueur2):
     '''Fonction de pénalité pour une paire'''
@@ -69,15 +81,19 @@ def matchmaking(liste_joueurs):
     matchs = []
     penalty_module = []
     modules = list(itertools.permutations(liste, len(liste)))
-    for i in range(0, len(modules[0])):
-        print(modules[0][i].nom)
+   
     for module in modules:
        penalty_module.append(somme_penalty(module))
     
     # Une fois qu'on a tous les scores, on trie pour obtenir le minimum
     penalty_module, modules = tri_bulle(penalty_module, modules)
-   
-    # On choisit le module avec le minimum c'est-à-dire le premier
+    i = 0
+    module_valide = modules[i]
+    while not pair_valide(module_valide):
+        i += 1
+        module_valide = modules[i]
+        
+    # On choisit le module avec le minimum c'est-à-dire le premier à condition qu'il soit valide
     for i in range(0, len(modules[0])-1):
         matchs.append((modules[0][i], modules[0][i+1]))
         
