@@ -6,9 +6,14 @@ Le principe du tournoi suisse est que chaque joueur sera opposé à un adversair
 # Lancer le programme
 ### Installer Faker
 `pip install Faker`
+`pip install cx_Freeze`
+`pip install idna`
 
 ### Lancement
 `python systeme-suisse.py`
+
+### Créer le fichier .exe
+`python setup.py build`
 
 # Correction à apporter
 - Amélioration du système de victoire
